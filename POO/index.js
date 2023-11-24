@@ -39,7 +39,7 @@ class Encuesta {
   // Función para crear una nueva encuesta
   const crearEncuesta = () => {
     const pregunta = prompt('Ingrese la pregunta de la encuesta:');
-    const opcionesStr = prompt('Ingrese las opciones de respuesta separadas por coma (por ejemplo, opción1,opción2,opción3):');
+    const opcionesStr = prompt('Ingrese las opciones de respuesta separadas por coma (por ejemplo, opción1, opción2, opción3):');
     const opciones = opcionesStr.split(',');
     return new Encuesta(pregunta, opciones);
   };
