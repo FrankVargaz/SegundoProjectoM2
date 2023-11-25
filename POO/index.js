@@ -21,6 +21,7 @@ class Encuesta {
     agregarVoto(opcion) {
       if (this.opciones.includes(opcion)) {
         this.resultados[opcion]++;
+        console.log(`Pregunta: ${encuesta.pregunta}`);
         this.mostrarResultados(); // Mostrar resultados en tiempo real
         console.log(`Voto registrado para la opción: ${opcion}`);
       } else {

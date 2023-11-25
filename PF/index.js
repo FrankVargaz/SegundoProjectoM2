@@ -22,6 +22,7 @@ const crearEncuesta = () => {
         [opcion]: encuesta.resultados[opcion] + 1,
       };
       mostrarResultados(nuevosResultados);
+      console.log(`Pregunta: ${encuesta.pregunta}`);
       console.log(`Voto registrado para la opción: ${opcion}`);
       return {
         ...encuesta,
