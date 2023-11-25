@@ -2,81 +2,84 @@
 //creado por Francisco E. Vargas
 // fecha 22/11/23
 
-// Definición de la clase Encuesta
-class Encuesta {
-    constructor(pregunta, opciones) {
-      this.pregunta = pregunta;
-      this.opciones = opciones;
-      this.resultados = this.inicializarResultados(opciones);
-    }
-  
-    inicializarResultados(opciones) {
-      const resultados = {};
-      opciones.forEach(opcion => {
-        resultados[opcion] = 0;
-      });
-      return resultados;
-    }
-  
-    agregarVoto(opcion) {
-      if (this.opciones.includes(opcion)) {
-        this.resultados[opcion]++;
-        console.log(`Pregunta: ${encuesta.pregunta}`);
-        this.mostrarResultados(); // Mostrar resultados en tiempo real
-        console.log(`Voto registrado para la opción: ${opcion}`);
-      } else {
-        console.log(`La opción "${opcion}" no es válida.`);
-      }
-    }
-  
-    mostrarResultados() {
-      console.log('Resultados de la encuesta:');
-      for (const opcion in this.resultados) {
-        console.log(`${opcion}: ${this.resultados[opcion]} votos`);
-      }
+// Clase Preguntas
+class Preguntas {
+  constructor(pregunta, opciones, respuestas) {
+    this.pregunta = pregunta;
+    this.opciones = opciones;
+    this.respuestas = respuestas;
+    this.resultados = this.inicializarResultados(opciones);
+  }
+
+  inicializarResultados(opciones) {
+    const resultados = {};
+    opciones.forEach(opcion => {
+      resultados[opcion] = 0;
+    });
+    return resultados;
+  }
+
+  agregarVoto(opcion) {
+    if (this.opciones.includes(opcion)) {
+      this.resultados[opcion]++;
+      console.log(`Voto registrado para la opción: ${opcion}`);
+    } else {
+      console.log(`La opción "${opcion}" no es válida.`);
     }
   }
-  
-  // Función para crear una nueva encuesta
-  const crearEncuesta = () => {
-    const pregunta = prompt('Ingrese la pregunta de la encuesta:');
-    const opcionesStr = prompt('Ingrese las opciones de respuesta separadas por coma (por ejemplo, opción1, opción2, opción3):');
-    const opciones = opcionesStr.split(',');
-    return new Encuesta(pregunta, opciones);
-  };
-  
-  // Función para realizar votación
-  const votar = (encuesta) => {
-    const opcion = prompt('Ingrese su voto:');
-    encuesta.agregarVoto(opcion);
-  };
-  
-  // Función principal
-  const main = () => {
-    let encuestaActual;
-  
-    while (true) {
-      const opcionMenu = prompt(`Seleccione una opción:\n1. Crear nueva encuesta\n2. Votar\n3. Salir`);
-  
-      switch (opcionMenu) {
-        case '1':
-          encuestaActual = crearEncuesta();
-          break;
-        case '2':
-          if (encuestaActual) {
-            votar(encuestaActual);
-          } else {
-            console.log('Primero debe crear una encuesta.');
-          }
-          break;
-        case '3':
-          console.log('Saliendo del programa.');
-          return;
-        default:
-          console.log('Opción no válida. Inténtelo de nuevo.');
-      }
+
+  mostrarResultados() {
+    console.log(`Resultados de la pregunta: ${this.pregunta}`);
+    for (const opcion in this.resultados) {
+      console.log(`${opcion}: ${this.resultados[opcion]} votos`);
     }
-  };
-  
-  // Ejecutar el programa
-  main();
+  }
+}
+
+// Crear instancias de Preguntas
+const pregunta1 = new Preguntas(
+  '¿Cuál es el lenguaje de programación en la web?',
+  ['PHP', 'go', 'Phyton', 'JS'],
+  'JS'
+);
+
+const pregunta2 = new Preguntas(
+  '¿Cuál es el lenguaje de estilos en la web?',
+  ['PHP', 'LESS', 'SASS', 'CSS'],
+  'CSS'
+);
+
+// Clase Encuesta
+class Encuesta {
+  constructor() {
+    this.preguntas = [];
+  }
+
+  agregarPregunta(pregunta) {
+    this.preguntas.push(pregunta);
+  }
+
+  realizarEncuesta() {
+    this.preguntas.forEach(pregunta => {
+      const opcion = prompt(pregunta.pregunta + ' (' + pregunta.opciones.join(', ') + '):');
+      pregunta.agregarVoto(opcion);
+    });
+    this.mostrarResultados();
+  }
+
+  mostrarResultados() {
+    this.preguntas.forEach(pregunta => {
+      pregunta.mostrarResultados();
+    });
+  }
+}
+
+// Crear instancia de Encuesta
+const miEncuesta = new Encuesta();
+
+// Agregar preguntas a la encuesta
+miEncuesta.agregarPregunta(pregunta1);
+miEncuesta.agregarPregunta(pregunta2);
+
+// Realizar la encuesta
+miEncuesta.realizarEncuesta();
